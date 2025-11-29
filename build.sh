@@ -9,7 +9,7 @@ echo "=== Collecting static files ==="
 python manage.py collectstatic --noinput --clear
 
 echo "=== Running migrations ==="
-python manage.py migrate --noinput || true
+python manage.py migrate --noinput
 
 echo "=== Populating database ==="
 python manage.py populate_db

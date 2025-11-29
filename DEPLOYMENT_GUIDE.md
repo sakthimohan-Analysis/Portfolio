@@ -182,32 +182,22 @@ https://your-project-name.vercel.app/admin
 
 ## ⚠️ Important Limitations
 
-### Database (SQLite)
-- **Problem**: SQLite database resets on each deployment
-- **Solution**: Use a cloud database for production
+### Database (PostgreSQL) - REQUIRED
+- **Problem**: SQLite doesn't work on Vercel (read-only filesystem).
+- **Solution**: You **MUST** use Vercel Postgres.
 
-#### Recommended Cloud Databases (Free Tier Available)
+#### Setting up Vercel Postgres:
+1. Go to your Vercel Project Dashboard.
+2. Click on the **Storage** tab.
+3. Click **Create Database** -> **Postgres**.
+4. Follow the prompts (Region, etc.) and click **Create**.
+5. **IMPORTANT**: Click **"Connect Project"** and select your portfolio project.
+6. This automatically sets the `POSTGRES_URL` and `DATABASE_URL` environment variables.
 
-1. **Neon** (PostgreSQL) - [https://neon.tech/](https://neon.tech/)
-   - Free tier: 0.5 GB storage
-   - Easy setup, serverless
-
-2. **Supabase** (PostgreSQL) - [https://supabase.com/](https://supabase.com/)
-   - Free tier: 500 MB storage
-   - Includes authentication and storage
-
-3. **Railway** (PostgreSQL) - [https://railway.app/](https://railway.app/)
-   - Free tier: 500 MB storage
-   - Simple deployment
-
-#### To Use PostgreSQL:
-
-1. Sign up for one of the services above
-2. Create a database
-3. Get your database URL (format: `postgresql://user:password@host:port/dbname`)
-4. Add to Vercel environment variables:
-   - `DATABASE_URL`: Your PostgreSQL connection string
-5. Update `settings.py` to use the database URL
+### Automated Data Population
+- I have included a script that automatically populates your database with sample data (Skills, Projects) every time you deploy.
+- You don't need to do anything manually for this.
+- Check the build logs if you want to see it in action.
 
 ### Media Files
 - **Problem**: Uploaded images don't persist on Vercel
