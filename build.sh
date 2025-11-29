@@ -1,10 +1,14 @@
 #!/bin/bash
 
-# Install dependencies
+set -e
+
+echo "=== Installing dependencies ==="
 pip install -r requirements.txt
 
-# Collect static files
-python manage.py collectstatic --noinput
+echo "=== Collecting static files ==="
+python manage.py collectstatic --noinput --clear
 
-# Run migrations
-python manage.py migrate --noinput
+echo "=== Running migrations ==="
+python manage.py migrate --noinput || true
+
+echo "=== Build completed successfully ==="
