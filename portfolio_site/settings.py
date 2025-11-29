@@ -79,18 +79,20 @@ WSGI_APPLICATION = 'portfolio_site.wsgi.application'
 
 import dj_database_url
 
-print("DEBUG: Checking environment variables...")
-print(f"DEBUG: DATABASE_URL present? {'DATABASE_URL' in os.environ}")
-print(f"DEBUG: POSTGRES_URL present? {'POSTGRES_URL' in os.environ}")
-if 'DATABASE_URL' in os.environ:
-    print(f"DEBUG: DATABASE_URL starts with: {os.environ['DATABASE_URL'][:10]}...")
+# Check for Vercel Postgres URL first, then generic DATABASE_URL
+database_url = os.environ.get('POSTGRES_URL') or os.environ.get('DATABASE_URL')
 
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('POSTGRES_URL', 'sqlite:///' + str(BASE_DIR / 'db.sqlite3')),
-        conn_max_age=600
-    )
-}
+if database_url:
+    DATABASES = {
+        'default': dj_database_url.parse(database_url, conn_max_age=600)
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
