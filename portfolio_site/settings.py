@@ -79,6 +79,12 @@ WSGI_APPLICATION = 'portfolio_site.wsgi.application'
 
 import dj_database_url
 
+print("DEBUG: Checking environment variables...")
+print(f"DEBUG: DATABASE_URL present? {'DATABASE_URL' in os.environ}")
+print(f"DEBUG: POSTGRES_URL present? {'POSTGRES_URL' in os.environ}")
+if 'DATABASE_URL' in os.environ:
+    print(f"DEBUG: DATABASE_URL starts with: {os.environ['DATABASE_URL'][:10]}...")
+
 DATABASES = {
     'default': dj_database_url.config(
         default=os.environ.get('POSTGRES_URL', 'sqlite:///' + str(BASE_DIR / 'db.sqlite3')),
